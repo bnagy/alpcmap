@@ -1,13 +1,15 @@
 package main
 
 import (
+	"fmt"
+	"github.com/bnagy/alpcbuggery"
 	"log"
 	"net/http"
 	"strings"
 )
 
 // Serve serves our simple app
-func Serve(procs []*Process) error {
+func Serve(debugger alpcbuggery.Debugger, procs []*alpcbuggery.Process, port int) error {
 
 	pageBytes, err := RenderGraph(procs)
 
@@ -27,7 +29,7 @@ func Serve(procs []*Process) error {
 				return
 			}
 
-			if portDetail, err := GetPortDetail(ff[2]); err == nil {
+			if portDetail, err := debugger.GetPortDetail(ff[2]); err == nil {
 				w.Header().Set("Content-Type", "text/plain")
 				w.Write([]byte(portDetail))
 			} else {
@@ -35,8 +37,8 @@ func Serve(procs []*Process) error {
 			}
 		})
 
-		log.Println("Serving at http://localhost:8080")
-		return http.ListenAndServe(":8080", nil)
+		log.Printf("Serving at http://localhost:%v", port)
+		return http.ListenAndServe(fmt.Sprintf(":%v", port), nil)
 	}
 	return err
 

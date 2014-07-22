@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"github.com/bnagy/alpcbuggery"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -22,7 +23,7 @@ func everyoneColor() string {
 	return "#33FF33"
 }
 
-func tokenColor(proc Process) string {
+func tokenColor(proc alpcbuggery.Process) string {
 	match, err := regexp.MatchString(*highlightRegex, proc.Token.SID)
 	if match && err == nil {
 		return "#33FF33"
@@ -94,12 +95,12 @@ func render(in, out *bytes.Buffer) error {
 
 }
 
-func formatConn(c ALPCConn) string {
+func formatConn(c alpcbuggery.ALPCConn) string {
 	return fmt.Sprintf("%s:%s", c.ProcessObject, c.PortObject)
 }
 
 // RenderGraph shells out to graphviz to parse the dot and generate HTML/SVG
-func RenderGraph(procs []*Process) ([]byte, error) {
+func RenderGraph(procs []*alpcbuggery.Process) ([]byte, error) {
 
 	log.Println("Rendering Graph...")
 	var in, out bytes.Buffer
