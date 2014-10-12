@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"flag"
 	"fmt"
 	"github.com/bnagy/alpcbuggery"
@@ -16,8 +15,6 @@ var bad1dea = flag.Bool("0x", false, "Enable pretty colors")
 var graphType = flag.String("g", "twopi", "Graphviz command execute to generate graph")
 var highlightRegex = flag.String("h", `SYSTEM`, "Highlight ports matching this regex")
 var textMode = flag.Bool("t", false, "Dump matching ports in plaintext")
-
-var buf bytes.Buffer
 
 func main() {
 
